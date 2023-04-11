@@ -3,22 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <title>회원가입 화면</title>
+  코딩강사 곽경남 — 오늘 오전 10:11
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
   <script>
-  function idDoubleCheck(){
 
+    function idDoubleCheck() {
+      let user_id = $('#user_id').val();
+      if( !user_id) {
+      alert('아이디를 입력해주세요~');
+      return;
+    }
 
+    //let parameter = {'user_id', user_id};
+    // ajax 통신
+    $.ajax( {
+      url: 'http://localhost:8080/idDoubleCheckAjax?user_id='+user_id,
+      type: 'GET',
+      //data: parameter,
+
+      success: function(response) {
+        //console('통신성공: response:' + response);
+        if( response == '1') {  //중복됨
+            alert('아이디가 중복됩니다.')
+            $('#id_double_checked').val('no');
+        } else{ // 0 중복안됨
+            alert('아이디가 사용가능합니다.')
+            $('#id_double_checked').val('yes');
+        }
+      },
+      error: function() {
+        alert('통신실패');
+      },
+    });
 
   }
 
 
+// 제이쿼리로도 접근 가능
 	function checkValue() {
-	    console.log(! document.form.userIfo.id_double_checked.value == 'no');
-	   if(! document.form.userIfo.id_double_checked.value == 'no'){ // empty: null or 길이 0
-	      alert('아이디 중복 확인을 해주세요');
-	      return false;
-	   }
+	let val_idDoubleChecked = $('#id_double_checked').val();
+	console.log ('val_isDouble_checked:' + val_idDoubleChecked);
 
-        return true; // true이기 때문에 유효성 체크 안함.
+	if( val_idDoubleChecked == 'no' ) {
+      alert('아이디 중복확인을 해주세요.');
+      return false;
+	}
+
+        return true; // 통신전송됨. 아랫쪽 유효성체크 안함.
 
 		if(!document.userInfo.user_id.value) { //empty: null, 길이 0
 			alert("아이디을 입력해주세요");
@@ -62,8 +93,9 @@
       <td>아이디</td>
       <td>
         <input type="text" name="user_id" id="user_id" maxlength="20" />
-        <button onclick="idDoubleCheck();">중복 확인</button>
-        <input type="hidden" name="id_double_checked" id="id_double_checked" value="no">
+        <button type="button" onclick="idDoubleCheck();">중복확인</button>
+        <input type="hidden" name="id_double_checked" id="id_double_checked"
+               value="no">
       </td>
     </tr>
     <tr>
