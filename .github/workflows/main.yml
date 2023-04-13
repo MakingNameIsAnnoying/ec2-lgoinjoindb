@@ -1,3 +1,19 @@
+env:
+  S3_BUCKET_NAME: actions-deploy-bucket1
+  PROJECT_NAME: ec2-loginjoindb # 내 Git Hub 프로젝트 이름
+
+name: deploy # (0) GitHub Action에서 보여질 이름을 지정합니다. 
+
+on:
+  release:
+    types: [push] # (1) push시 자동으로 실행됩니다.
+  push:
+    branches: [main] # (2) main 브랜치에서 동작합니다.
+  workflow_dispatch: # (3) 수동으로도 실행이 가능합니다.
+
+...code...
+
+
 name: deploy # (0) GitHub Action에서 보여질 이름을 지정합니다. 
 
 on:
